@@ -174,7 +174,7 @@ fn axis_to_string() {
     axis.plots.push(plot.clone());
     assert_eq!(
         axis.to_string(),
-        "\\begin{axis}\n\t\\addplot[] coordinates {\n\t};\n\\end{axis}"
+        "\\begin{axis}\n\t\\addplot+[] coordinates {\n\t};\n\\end{axis}"
     );
 
     axis.add_key(AxisKey::YMode(Scale::Log));
@@ -184,5 +184,5 @@ fn axis_to_string() {
     plot.add_key(PlotKey::XError(ErrorCharacter::Absolute));
     plot.add_key(PlotKey::XErrorDirection(ErrorDirection::Both));
     axis.plots.push(plot);
-    assert_eq!(axis.to_string(), "\\begin{axis}[\n\tymode=log,\n\txmode=log,\n]\n\t\\addplot[] coordinates {\n\t};\n\t\\addplot[\n\t\terror bars/x explicit,\n\t\terror bars/x dir=both,\n\t] coordinates {\n\t\t(1,-1)\t+- (0,5)\n\t\t(1,-1)\n\t};\n\\end{axis}");
+    assert_eq!(axis.to_string(), "\\begin{axis}[\n\tymode=log,\n\txmode=log,\n]\n\t\\addplot+[] coordinates {\n\t};\n\t\\addplot+[\n\t\terror bars/x explicit,\n\t\terror bars/x dir=both,\n\t] coordinates {\n\t\t(1,-1)\t+- (0,5)\n\t\t(1,-1)\n\t};\n\\end{axis}");
 }

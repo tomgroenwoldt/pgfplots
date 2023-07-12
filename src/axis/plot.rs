@@ -95,7 +95,7 @@ pub struct Plot2D {
 
 impl fmt::Display for Plot2D {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "\t\\addplot[")?;
+        write!(f, "\t\\addplot+[")?;
         // If there are keys, print them one per line. It makes it easier for a
         // human to find individual keys later.
         if !self.keys.is_empty() {

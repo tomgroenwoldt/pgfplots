@@ -84,5 +84,5 @@ fn picture_to_string() {
     picture.add_key(PictureKey::Custom(String::from("scale=2")));
     axis.plots.push(Plot2D::new());
     picture.axes.push(axis.clone());
-    assert_eq!(picture.to_string(), "\\begin{tikzpicture}[\n\tbaseline,\n\tscale=2,\n]\n\\begin{axis}\n\\end{axis}\n\\begin{axis}\n\t\\addplot[] coordinates {\n\t};\n\\end{axis}\n\\end{tikzpicture}");
+    assert_eq!(picture.to_string(), "\\begin{tikzpicture}[\n\tbaseline,\n\tscale=2,\n]\n\\begin{axis}\n\\end{axis}\n\\begin{axis}\n\t\\addplot+[] coordinates {\n\t};\n\\end{axis}\n\\end{tikzpicture}");
 }
