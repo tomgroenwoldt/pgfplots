@@ -171,7 +171,7 @@ fn axis_to_string() {
 
     axis.keys.clear();
     let mut plot = Plot2D::new();
-    axis.plots.push(plot.clone());
+    axis.plots.push(plot.clone().into());
     assert_eq!(
         axis.to_string(),
         "\\begin{axis}\n\t\\addplot+[] coordinates {\n\t};\n\\end{axis}"
@@ -183,6 +183,6 @@ fn axis_to_string() {
     plot.coordinates.push((1.0, -1.0, None, None).into());
     plot.add_key(PlotKey::XError(ErrorCharacter::Absolute));
     plot.add_key(PlotKey::XErrorDirection(ErrorDirection::Both));
-    axis.plots.push(plot);
+    axis.plots.push(plot.into());
     assert_eq!(axis.to_string(), "\\begin{axis}[\n\tymode=log,\n\txmode=log,\n]\n\t\\addplot+[] coordinates {\n\t};\n\t\\addplot+[\n\t\terror bars/x explicit,\n\t\terror bars/x dir=both,\n\t] coordinates {\n\t\t(1,-1)\t+- (0,5)\n\t\t(1,-1)\n\t};\n\\end{axis}");
 }

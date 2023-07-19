@@ -1,3 +1,4 @@
+use crate::axis::plot::Plot;
 use crate::axis::plot::Plot2D;
 use std::fmt;
 
@@ -74,7 +75,7 @@ impl fmt::Display for AxisKey {
 #[derive(Clone, Debug, Default)]
 pub struct Axis {
     keys: Vec<AxisKey>,
-    pub plots: Vec<Plot2D>,
+    pub plots: Vec<Plot>,
 }
 
 impl fmt::Display for Axis {
@@ -105,7 +106,7 @@ impl From<Plot2D> for Axis {
     fn from(plot: Plot2D) -> Self {
         Axis {
             keys: Vec::new(),
-            plots: vec![plot],
+            plots: vec![plot.into()],
         }
     }
 }

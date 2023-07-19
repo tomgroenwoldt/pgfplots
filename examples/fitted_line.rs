@@ -42,8 +42,8 @@ fn main() {
     axis.set_title("Slope is $2\\pi$");
     axis.set_x_label("Radius~[m]");
     axis.set_y_label("Circumference~[m]");
-    axis.plots.push(line);
-    axis.plots.push(points);
+    axis.plots.push(line.into());
+    axis.plots.push(points.into());
     axis.add_key(AxisKey::Custom(String::from("legend entries={fit,data}")));
     axis.add_key(AxisKey::Custom(String::from("legend pos=north west")));
 

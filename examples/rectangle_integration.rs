@@ -32,8 +32,8 @@ fn main() {
     axis.set_title("Rectangle Integration");
     axis.set_x_label("$x$");
     axis.set_y_label("$y = x^2$");
-    axis.plots.push(rectangles);
-    axis.plots.push(line);
+    axis.plots.push(rectangles.into());
+    axis.plots.push(line.into());
     axis.add_key(AxisKey::Custom(String::from("axis lines=middle")));
     axis.add_key(AxisKey::Custom(String::from("xlabel near ticks")));
     axis.add_key(AxisKey::Custom(String::from("ylabel near ticks")));

@@ -24,6 +24,14 @@ pub struct Coordinate2D {
     // Is `point meta` skipped same as error when it is not set?
 }
 
+#[derive(Clone, Copy, Debug)]
+#[non_exhaustive]
+pub struct Coordinate3D {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+}
+
 impl fmt::Display for Coordinate2D {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "({},{})", self.x, self.y)?;
@@ -33,6 +41,14 @@ impl fmt::Display for Coordinate2D {
             let error_y = self.error_y.unwrap_or(0.0);
             write!(f, "\t+- ({error_x},{error_y})")?;
         }
+
+        Ok(())
+    }
+}
+
+impl fmt::Display for Coordinate3D {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "({},{},{})", self.x, self.y, self.z)?;
 
         Ok(())
     }
@@ -59,6 +75,16 @@ impl From<(f64, f64)> for Coordinate2D {
             y: coordinate.1,
             error_x: None,
             error_y: None,
+        }
+    }
+}
+
+impl From<(f64, f64, f64)> for Coordinate3D {
+    fn from(coordinate: (f64, f64, f64)) -> Self {
+        Coordinate3D {
+            x: coordinate.0,
+            y: coordinate.1,
+            z: coordinate.2,
         }
     }
 }

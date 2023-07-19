@@ -1,7 +1,7 @@
 use strum::Display;
 
 pub use crate::axis::plot::color::Color;
-use crate::axis::plot::coordinate::Coordinate2D;
+use crate::axis::plot::coordinate::{Coordinate2D, Coordinate3D};
 use std::fmt;
 
 // Only imported for documentation. If you notice that this is no longer the
@@ -13,6 +13,33 @@ use crate::{Axis, Picture};
 pub mod color;
 /// Coordinates inside a plot.
 pub mod coordinate;
+
+#[derive(Clone, Debug)]
+pub enum Plot {
+    Plot2D(Plot2D),
+    Plot3D(Plot3D),
+}
+
+impl From<Plot2D> for Plot {
+    fn from(value: Plot2D) -> Self {
+        Self::Plot2D(value)
+    }
+}
+
+impl From<Plot3D> for Plot {
+    fn from(value: Plot3D) -> Self {
+        Self::Plot3D(value)
+    }
+}
+
+impl fmt::Display for Plot {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Plot::Plot2D(plot) => write!(f, "{plot}"),
+            Plot::Plot3D(plot) => write!(f, "{plot}"),
+        }
+    }
+}
 
 /// PGFPlots options passed to a plot.
 ///
@@ -243,6 +270,56 @@ impl fmt::Display for Type2D {
             Type2D::YComb => write!(f, "ycomb"),
             Type2D::OnlyMarks => write!(f, "only marks"),
         }
+    }
+}
+#[derive(Clone, Debug, Default)]
+pub struct Plot3D {
+    keys: Vec<PlotKey>,
+    pub coordinates: Vec<Coordinate3D>,
+}
+
+impl fmt::Display for Plot3D {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "\t\\addplot3+[")?;
+        // If there are keys, print them one per line. It makes it easier for a
+        // human to find individual keys later.
+        if !self.keys.is_empty() {
+            writeln!(f)?;
+            for key in self.keys.iter() {
+                writeln!(f, "\t\t{key},")?;
+            }
+            write!(f, "\t")?;
+        }
+        writeln!(f, "] coordinates {{")?;
+
+        for coordinate in self.coordinates.iter() {
+            writeln!(f, "\t\t{coordinate}")?;
+        }
+
+        write!(f, "\t}};")?;
+
+        Ok(())
+    }
+}
+
+impl Plot3D {
+    pub fn new() -> Self {
+        Default::default()
+    }
+    pub fn add_key(&mut self, key: PlotKey) {
+        match key {
+            PlotKey::Custom(_) => (),
+            _ => {
+                if let Some(index) = self
+                    .keys
+                    .iter()
+                    .position(|k| std::mem::discriminant(k) == std::mem::discriminant(&key))
+                {
+                    self.keys.remove(index);
+                }
+            }
+        }
+        self.keys.push(key);
     }
 }
 
